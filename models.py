@@ -62,7 +62,7 @@ class BinaryPerceptron(SKModel):
         """
         
         # !!! VOTRE CODE IÇI !!!
-        w, b = np.zeros((1,self.n_dim)), 0.1
+        w, b = np.zeros((1,self.n_dim)), 0.5
         return w, b
 
     def get_bias(self) -> float:
@@ -100,7 +100,6 @@ class BinaryPerceptron(SKModel):
             Vecteur d'étiquettes de dimension (X.shape[0],)
 
         """
-        print("ALLLLOOO \n \n \n ")
         for i in range(self.n_iter):
             for x_i, y_i in zip(X, y):
                 print("I",i)
@@ -111,7 +110,23 @@ class BinaryPerceptron(SKModel):
 
     def threshold(self, X: np.ndarray) -> np.ndarray:
         # !!! VOTRE CODE IÇI !!!
-        pass
+        res = np.zeros((len(X),self.n_dim))
+        print('w:',self.w)
+        print('X:',X)
+        for index,item in enumerate(res):
+            dot = np.dot(self.w[0],X[index])
+            print('X[index]',X[index])
+            print('self.w[0]',self.w[0])
+            print('dot',dot)
+            for index2,item2 in enumerate(item):
+                print('item2',item2)
+                print('bias',self.b)
+                if(item2 + self.b > 0.0):
+                    res[index][index2]=0
+                else:
+                    res[index][index2]=0
+        print('res',res)
+        return res
 
     def predict(self, X: np.ndarray) -> np.ndarray:
         """
