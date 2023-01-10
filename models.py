@@ -102,30 +102,18 @@ class BinaryPerceptron(SKModel):
         """
         for i in range(self.n_iter):
             for x_i, y_i in zip(X, y):
-                print("I",i)
-                print("XI",x_i)
-                print("YI",y_i)
                 # !!! VOTRE CODE IÇI !!!
                 pass
 
     def threshold(self, X: np.ndarray) -> np.ndarray:
         # !!! VOTRE CODE IÇI !!!
         res = np.zeros((len(X),self.n_dim))
-        print('w:',self.w)
-        print('X:',X)
-        for index,item in enumerate(res):
-            dot = np.dot(self.w[0],X[index])
-            print('X[index]',X[index])
-            print('self.w[0]',self.w[0])
-            print('dot',dot)
+        for index,item in enumerate(X):
             for index2,item2 in enumerate(item):
-                print('item2',item2)
-                print('bias',self.b)
-                if(item2 + self.b > 0.0):
-                    res[index][index2]=0
+                if(item2> 0.0):
+                    res[index][index2]=1
                 else:
                     res[index][index2]=0
-        print('res',res)
         return res
 
     def predict(self, X: np.ndarray) -> np.ndarray:
@@ -144,8 +132,9 @@ class BinaryPerceptron(SKModel):
         \hat{y}: np.ndarray
             Vecteur des prédictions de dimension (n_rows,)
         """
-        # !!! VOTRE CODE IÇI !!!
-        pass
+        dot=np.dot(X,self.w)
+        tresh = self.threshold([dot])
+        return tresh[0]
 
 
 class MulticlassPerceptron(BinaryPerceptron):
