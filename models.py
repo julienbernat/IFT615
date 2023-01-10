@@ -60,8 +60,9 @@ class BinaryPerceptron(SKModel):
         b: float
             Le biais
         """
-        w, b = np.array([]), None
+        
         # !!! VOTRE CODE IÇI !!!
+        w, b = np.zeros((1,self.n_dim)), 0.1
         return w, b
 
     def get_bias(self) -> float:
