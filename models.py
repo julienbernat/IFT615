@@ -175,7 +175,8 @@ class MulticlassPerceptron(BinaryPerceptron):
 
     def init_params(self) -> Tuple[np.ndarray, np.ndarray]:
         # !!! VOTRE CODE IÇI !!!
-        pass
+        w, b = np.zeros((self.n_classes, self.n_dim)), np.zeros(self.n_classes)
+        return w, b
 
     def fit(self, X: np.ndarray, y: np.ndarray):
         """
@@ -194,6 +195,13 @@ class MulticlassPerceptron(BinaryPerceptron):
         for i in range(self.n_iter):
             for x_i, y_i in zip(X, y):
                 # !!! VOTRE CODE IÇI !!!
+                predict = self.predict([x_i])
+                if (predict!=y_i):
+                    self.w[predict] = self.w[predict] - self.alpha*x_i
+                    self.w[y_i] = self.w[y_i] + self.alpha*x_i
+
+                    self.b[predict] = self.b[predict] - self.alpha
+                    self.b[y_i] = self.b[y_i] - self.alpha
                 pass
 
     def predict(self, X: np.ndarray) -> np.ndarray:
@@ -211,7 +219,10 @@ class MulticlassPerceptron(BinaryPerceptron):
         pred: np.ndarray
             Vecteur des prédictions de dimension (n_rows,)
         """
-        pass
+
+        score = np.dot(X, np.matrix.transpose(self.w)) + self.b
+        return np.argmax(score,1)
+
 
 
 class FeatureEngPerceptron(MulticlassPerceptron):
