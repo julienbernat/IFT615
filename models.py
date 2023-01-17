@@ -111,8 +111,8 @@ class BinaryPerceptron(SKModel):
 
     def threshold(self, X: np.ndarray) -> np.ndarray:
         # !!! VOTRE CODE IÇI !!!
-        res = np.vectorize(lambda a:1 if a>=0 else 0)(X)
-        return res
+        return np.vectorize(lambda a:1 if a>=0 else 0)(X)
+
 
     def predict(self, X: np.ndarray) -> np.ndarray:
         """
@@ -131,8 +131,7 @@ class BinaryPerceptron(SKModel):
             Vecteur des prédictions de dimension (n_rows,)
         """
         score = np.dot(self.w, np.transpose(X)) + self.b
-        tresh = self.threshold(score)
-        return tresh 
+        return self.threshold(score)
 
 
 class MulticlassPerceptron(BinaryPerceptron):
@@ -202,7 +201,7 @@ class MulticlassPerceptron(BinaryPerceptron):
 
                     self.b[predict] = self.b[predict] - self.alpha
                     self.b[y_i] = self.b[y_i] - self.alpha
-                pass
+        pass
 
     def predict(self, X: np.ndarray) -> np.ndarray:
         """
