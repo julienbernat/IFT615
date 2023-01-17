@@ -62,7 +62,7 @@ class BinaryPerceptron(SKModel):
         """
         
         # !!! VOTRE CODE IÇI !!!
-        w, b = np.zeros((1,self.n_dim)), 0.5
+        w, b = np.zeros(self.n_dim), 0.0
         return w, b
 
     def get_bias(self) -> float:
@@ -103,17 +103,15 @@ class BinaryPerceptron(SKModel):
         for i in range(self.n_iter):
             for x_i, y_i in zip(X, y):
                 # !!! VOTRE CODE IÇI !!!
-                pass
+                prediction = self.predict(x_i)
+                if(prediction!=y_i):
+                    self.b = self.b + self.alpha*(y_i-prediction)
+                    self.w = self.w + self.alpha*(y_i-prediction)*x_i
+        pass
 
     def threshold(self, X: np.ndarray) -> np.ndarray:
         # !!! VOTRE CODE IÇI !!!
-        res = np.zeros((len(X),self.n_dim))
-        for index,item in enumerate(X):
-            for index2,item2 in enumerate(item):
-                if(item2> 0.0):
-                    res[index][index2]=1
-                else:
-                    res[index][index2]=0
+        res = np.vectorize(lambda a:1 if a>=0 else 0)(X)
         return res
 
     def predict(self, X: np.ndarray) -> np.ndarray:
@@ -132,9 +130,9 @@ class BinaryPerceptron(SKModel):
         \hat{y}: np.ndarray
             Vecteur des prédictions de dimension (n_rows,)
         """
-        dot=np.dot(X,self.w)
-        tresh = self.threshold([dot])
-        return tresh[0]
+        score = np.dot(self.w, np.transpose(X)) + self.b
+        tresh = self.threshold(score)
+        return tresh 
 
 
 class MulticlassPerceptron(BinaryPerceptron):
